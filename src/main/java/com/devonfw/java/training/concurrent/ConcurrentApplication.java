@@ -74,6 +74,28 @@ public class ConcurrentApplication implements CommandLineRunner {
         Future<Pi> futureTaskPi2 = piService.computePiAsyncFuture(7);
         logger.info("futureTaskPi2 prepared");
 
+        // completable future
+        int timeToComputePi1 = 3;
+        Double r1 = 2.0;
+
+        CompletableFuture<Pi> piFuture = CompletableFuture.supplyAsync(() -> piService.computePi(timeToComputePi1));
+        CompletableFuture<Double> r2Future = CompletableFuture.supplyAsync(() -> mathService.multiply(r1, r1));
+
+        CompletableFuture<?> completableFuturePi1 = piFuture
+                .thenCombine(r2Future, (pi, rr) -> mathService.multiply(pi.getComputedPi(), rr))
+                .thenAcceptAsync(printerService::print);
+
+        // completable future with async
+        int timeToComputePi2 = 4;
+        Double r2 = 3.0;
+
+        CompletableFuture<Pi> piFuture2 = piService.computePiAsync(timeToComputePi2);
+        CompletableFuture<Double> r2Future2 = mathService.multiplyAsync(r2, r2);
+
+        CompletableFuture<?> completableFuturePi2 = piFuture2
+                .thenCombine(r2Future2, (pi, rr) -> mathService.multiply(pi.getComputedPi(), rr))
+                .thenAcceptAsync(printerService::printAsync);
+
         // *** main thread
         int timeInMainThraed = 10;
         for (int i = 1; i <= timeInMainThraed; i++) {
@@ -89,6 +111,12 @@ public class ConcurrentApplication implements CommandLineRunner {
         logger.info("pi from futurePi: {}", futurePi.get().getComputedPi());
         logger.info("pi from futureTaskPi1: {}", futureTaskPi1.get().getComputedPi());
         logger.info("pi from futureTaskPi2: {}", futureTaskPi2.get().getComputedPi());
+
+        logger.info("Wait for completableFuturePi1");
+        completableFuturePi1.join();
+
+        logger.info("Wait for completableFuturePi2");
+        completableFuturePi2.join();
 
         // *** final cleanup
         executorService.shutdown();
