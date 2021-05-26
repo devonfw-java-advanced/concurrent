@@ -50,7 +50,29 @@ public class ConcurrentApplication implements CommandLineRunner {
     public void run(String... args) throws InterruptedException, ExecutionException {
         // *** run work in background
 
-        // ...
+        // future
+        Future<Pi> futurePi = executorService.submit(new Callable<Pi>() {
+            public Pi call() {
+                return piService.computePi(6);
+            }
+        });
+        logger.info("futurePi prepared");
+
+        // future task based on callable
+        FutureTask<Pi> futureTaskPi1 = new FutureTask<>(new Callable<Pi>() {
+            @Override
+            public Pi call() throws Exception {
+                return piService.computePi(5);
+            }
+        });
+        logger.info("futureTaskPi1 prepared");
+
+        executor.execute(futureTaskPi1);
+        logger.info("futureTaskPi1 execution started");
+
+        // future task based on async
+        Future<Pi> futureTaskPi2 = piService.computePiAsyncFuture(7);
+        logger.info("futureTaskPi2 prepared");
 
         // *** main thread
         int timeInMainThraed = 10;
@@ -64,8 +86,9 @@ public class ConcurrentApplication implements CommandLineRunner {
         }
 
         // *** get results from work run in background
-
-        // ...
+        logger.info("pi from futurePi: {}", futurePi.get().getComputedPi());
+        logger.info("pi from futureTaskPi1: {}", futureTaskPi1.get().getComputedPi());
+        logger.info("pi from futureTaskPi2: {}", futureTaskPi2.get().getComputedPi());
 
         // *** final cleanup
         executorService.shutdown();
