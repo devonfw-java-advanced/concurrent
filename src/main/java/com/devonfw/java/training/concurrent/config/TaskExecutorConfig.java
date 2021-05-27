@@ -17,8 +17,9 @@ public class TaskExecutorConfig {
         executor.setCorePoolSize(0);
         executor.setMaxPoolSize(Integer.MAX_VALUE);
         executor.setQueueCapacity(0);
-        executor.setKeepAliveSeconds(0);
+        executor.setKeepAliveSeconds(1);
         executor.setThreadNamePrefix("async-");
+        executor.setAllowCoreThreadTimeOut(true);
         executor.initialize();
         return executor;
     }
