@@ -15,10 +15,12 @@ public class MathService {
 
     public Double multiply(Double a, Double b) {
         // multiply takes some time
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            // ignore
+        for (int i = 0; i < 2000 && !Thread.currentThread().isInterrupted(); i++) {
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException e) {
+                // ignore
+            }
         }
         return a * b;
     }
