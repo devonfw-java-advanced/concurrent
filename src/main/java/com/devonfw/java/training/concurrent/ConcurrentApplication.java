@@ -87,12 +87,12 @@ public class ConcurrentApplication implements CommandLineRunner {
         int timeToComputePi2 = 4;
         Double r2 = 3.0;
 
-        CompletableFuture<Pi> piFuture2 = piService.computePiAsync(timeToComputePi2);
+        CompletableFuture<Double> piFuture2 = piService.computePiAsync(timeToComputePi2)
+                .thenApplyAsync(pi -> pi.getComputedPi());
         CompletableFuture<Double> r2Future2 = mathService.multiplyAsync(r2, r2);
 
-        CompletableFuture<?> completableFuturePi2 = piFuture2
-                .thenCombine(r2Future2, (pi, rr) -> mathService.multiply(pi.getComputedPi(), rr))
-                .thenAcceptAsync(printerService::printAsync);
+        CompletableFuture<?> completableFuturePi2 = piFuture2.thenCombineAsync(r2Future2, mathService::multiplyAsync)
+                .join().thenAcceptAsync(printerService::printAsync);
 
         // *** main thread
         int timeInMainThraed = 10;
