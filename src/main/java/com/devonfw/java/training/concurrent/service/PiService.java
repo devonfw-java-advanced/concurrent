@@ -30,7 +30,7 @@ public class PiService {
 
         Instant now = Instant.now();
         Instant end = now.plusSeconds(timeToComputeInSeconds);
-        while (end.isAfter(now)) {
+        while (end.isAfter(now) && !Thread.currentThread().isInterrupted()) {
             // trow dart and count
             nThrows++;
             if (whetherTheDartHit()) {
@@ -38,6 +38,10 @@ public class PiService {
             }
 
             now = Instant.now();
+        }
+
+        if (Thread.currentThread().isInterrupted()) {
+            return null;
         }
 
         Pi pi = computePiUsingThrowsAndHits(nThrows, nHits);

@@ -17,10 +17,12 @@ public class PrinterService {
 
     public void print(Double result) {
         // printing takes some time
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            // ignore
+        for (int i = 0; i < 1000 && !Thread.currentThread().isInterrupted(); i++) {
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException e) {
+                // ignore
+            }
         }
         logger.info("result: {}", result);
     }
