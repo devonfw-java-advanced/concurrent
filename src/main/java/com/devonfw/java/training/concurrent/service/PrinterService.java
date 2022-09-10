@@ -17,9 +17,9 @@ public class PrinterService {
 
     public void print(Double result) {
         // printing takes some time
-        for (int i = 0; i < 1000 && !Thread.currentThread().isInterrupted(); i++) {
+        for (int i = 0; i < 2 && !Thread.currentThread().isInterrupted(); i++) {
             try {
-                Thread.sleep(1);
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 // ignore
             }

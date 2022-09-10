@@ -15,9 +15,9 @@ public class MathService {
 
     public Double multiply(Double a, Double b) {
         // multiply takes some time
-        for (int i = 0; i < 2000 && !Thread.currentThread().isInterrupted(); i++) {
+        for (int i = 0; i < 3 && !Thread.currentThread().isInterrupted(); i++) {
             try {
-                Thread.sleep(1);
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 // ignore
             }
