@@ -1,24 +1,22 @@
 package com.devonfw.java.training.concurrent;
 
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executor;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.FutureTask;
-
 import com.devonfw.java.training.concurrent.entity.Pi;
 import com.devonfw.java.training.concurrent.service.MathService;
 import com.devonfw.java.training.concurrent.service.PiService;
 import com.devonfw.java.training.concurrent.service.PrinterService;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.FutureTask;
 
 @SpringBootApplication
 public class ConcurrentApplication implements CommandLineRunner {
@@ -63,14 +61,10 @@ public class ConcurrentApplication implements CommandLineRunner {
         logger.info("futureTaskPi2 prepared");
 
         // *** main thread
-        int timeInMainThraed = 10;
-        for (int i = 1; i <= timeInMainThraed; i++) {
-            logger.info("Do something in main thread {}/{}", i, timeInMainThraed);
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                // ignore
-            }
+        int timeInMainThread = 10;
+        for (int i = 1; i <= timeInMainThread; i++) {
+            logger.info("Do something in main thread {}/{}", i, timeInMainThread);
+            Thread.sleep(1000);
         }
 
         // *** get results from work run in background
