@@ -71,7 +71,7 @@ public class ConcurrentApplication implements CommandLineRunner {
                 .thenApplyAsync(pi -> pi.getComputedPi());
         CompletableFuture<Double> r2Future = CompletableFuture.supplyAsync(() -> mathService.multiply(r1, r1));
 
-        CompletableFuture<?> completableFuturePi1 = piFuture.thenCombine(r2Future, mathService::multiply)
+        CompletableFuture<?> completableFuturePi1 = piFuture.thenCombineAsync(r2Future, mathService::multiply)
                 .thenAcceptAsync(printerService::print);
 
         // completable future with async
