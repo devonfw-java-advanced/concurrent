@@ -49,20 +49,11 @@ public class ConcurrentApplication implements CommandLineRunner {
         // *** run work in background
 
         // future
-        Future<Pi> futurePi = executorService.submit(new Callable<Pi>() {
-            public Pi call() {
-                return piService.computePi(6);
-            }
-        });
+        Future<Pi> futurePi = executorService.submit(() -> piService.computePi(6));
         logger.info("futurePi prepared");
 
         // future task based on callable
-        FutureTask<Pi> futureTaskPi1 = new FutureTask<>(new Callable<Pi>() {
-            @Override
-            public Pi call() throws Exception {
-                return piService.computePi(5);
-            }
-        });
+        FutureTask<Pi> futureTaskPi1 = new FutureTask<>(() -> piService.computePi(5));
         logger.info("futureTaskPi1 prepared");
 
         executor.execute(futureTaskPi1);
@@ -81,7 +72,7 @@ public class ConcurrentApplication implements CommandLineRunner {
         CompletableFuture<Double> r2Future = CompletableFuture.supplyAsync(() -> mathService.multiply(r1, r1));
 
         CompletableFuture<?> completableFuturePi1 = piFuture.thenCombine(r2Future, mathService::multiply)
-                .thenAcceptAsync(printerService::print);F
+                .thenAcceptAsync(printerService::print);
 
         // completable future with async
         int timeToComputePi2 = 4;
