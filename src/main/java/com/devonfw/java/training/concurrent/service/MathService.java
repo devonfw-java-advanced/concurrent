@@ -1,9 +1,10 @@
 package com.devonfw.java.training.concurrent.service;
 
-import java.util.concurrent.CompletableFuture;
-
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+
+import java.time.Instant;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 public class MathService {
@@ -14,14 +15,14 @@ public class MathService {
     }
 
     public Double multiply(Double a, Double b) {
-        // multiply takes some time
-        for (int i = 0; i < 3 && !Thread.currentThread().isInterrupted(); i++) {
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                // ignore
-            }
+
+        Instant now = Instant.now();
+        Instant end = now.plusSeconds(3);
+        while (end.isAfter(now) && !Thread.currentThread().isInterrupted()) {
+            // multiply takes some time
+            now = Instant.now();
         }
+
         return a * b;
     }
 

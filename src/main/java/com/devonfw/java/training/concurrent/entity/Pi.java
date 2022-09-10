@@ -1,6 +1,5 @@
 package com.devonfw.java.training.concurrent.entity;
 
-import com.devonfw.java.training.concurrent.logging.FunctionLoggingAspect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
