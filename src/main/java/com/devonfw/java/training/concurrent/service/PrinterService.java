@@ -11,18 +11,14 @@ public class PrinterService {
     private Logger logger = LoggerFactory.getLogger(PrinterService.class);
 
     @Async
-    public void printAsync(Double result) {
+    public void printAsync(Double result) throws InterruptedException {
         print(result);
     }
 
-    public void print(Double result) {
+    public void print(Double result) throws InterruptedException {
         // printing takes some time
         for (int i = 0; i < 2 && !Thread.currentThread().isInterrupted(); i++) {
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                // ignore
-            }
+            Thread.sleep(1000);
         }
         logger.info("result: {}", result);
     }
