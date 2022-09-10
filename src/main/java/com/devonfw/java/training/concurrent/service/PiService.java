@@ -1,14 +1,13 @@
 package com.devonfw.java.training.concurrent.service;
 
-import java.time.Instant;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Future;
-
 import com.devonfw.java.training.concurrent.entity.Pi;
-
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
+
+import java.time.Instant;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Future;
 
 @Service
 public class PiService {
@@ -30,8 +29,8 @@ public class PiService {
 
         Instant now = Instant.now();
         Instant end = now.plusSeconds(timeToComputeInSeconds);
-        while (end.isAfter(now) && !Thread.currentThread().isInterrupted()) {
-            // trow dart and count
+        while (end.isAfter(now)) {
+            // throw dart and count
             nThrows++;
             if (whetherTheDartHit()) {
                 nHits++;
@@ -40,23 +39,10 @@ public class PiService {
             now = Instant.now();
         }
 
-        if (Thread.currentThread().isInterrupted()) {
-            return null;
-        }
-
-        Pi pi = computePiUsingThrowsAndHits(nThrows, nHits);
-
-        return pi;
+        return computePiUsingThrowsAndHits(nThrows, nHits);
     }
 
     private boolean whetherTheDartHit() {
-        // throwing a dart takes some time
-        try {
-            Thread.sleep(1);
-        } catch (InterruptedException e) {
-            // ignore
-        }
-
         double x = Math.random(), y = Math.random();
         return x * x + y * y <= 1.0;
     }
