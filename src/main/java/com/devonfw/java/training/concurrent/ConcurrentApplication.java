@@ -45,9 +45,9 @@ public class ConcurrentApplication implements CommandLineRunner {
         // ...
 
         // *** main thread
-        int timeInMainThraed = 10;
-        for (int i = 1; i <= timeInMainThraed; i++) {
-            logger.info("Do something in main thread {}/{}", i, timeInMainThraed);
+        int timeInMainThread = 10;
+        for (int i = 1; i <= timeInMainThread; i++) {
+            logger.info("Do something in main thread {}/{}", i, timeInMainThread);
             Thread.sleep(1000);
         }
 
